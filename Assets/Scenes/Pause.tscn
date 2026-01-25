@@ -20,6 +20,7 @@ script = ExtResource("1_pebd5")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 2
 layer = 2
+visible = false
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
 anchors_preset = 15

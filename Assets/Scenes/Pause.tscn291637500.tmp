@@ -20,6 +20,7 @@ script = ExtResource("1_pebd5")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 2
 layer = 2
+visible = false
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -38,7 +39,6 @@ label_settings = SubResource("LabelSettings_pebd5")
 horizontal_alignment = 1
 
 [node name="Resume" type="Button" parent="CanvasLayer/CenterContainer/GridContainer"]
-process_mode = 3
 layout_mode = 2
 text = "Resume"
 script = ExtResource("2_w0miv")

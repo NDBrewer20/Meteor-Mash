@@ -1,5 +1,6 @@
-extends CanvasLayer
+extends Button
 
-func _process(delta: float) -> void:
-	if visible:
-		$CenterContainer/GridContainer/Resume.grab_focus()
+func _ready() -> void:
+	visibility_changed.connect(func():
+		if visible:
+			grab_focus())

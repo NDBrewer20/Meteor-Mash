@@ -1,0 +1,155 @@
+[gd_scene load_steps=18 format=3 uid="uid://bux03ixyhk63d"]
+
+[ext_resource type="Script" uid="uid://c4m6vtixrkqwx" path="res://Assets/Scripts/updateGlyph.gd" id="1_8ae4l"]
+[ext_resource type="Script" uid="uid://b8gghdh2j57xb" path="res://Assets/Scripts/SceneChanger.gd" id="1_re56l"]
+[ext_resource type="Shader" uid="uid://cewejss8yfh5v" path="res://Assets/Scripts/Background.gdshader" id="1_xh1da"]
+[ext_resource type="PackedScene" uid="uid://bhjxxx56qfdfe" path="res://Assets/Scenes/Main.tscn" id="2_0woas"]
+[ext_resource type="Texture2D" uid="uid://c41h8s6lkma8" path="res://Assets/Sprites/MeteorMashBackground1.png" id="2_etf7m"]
+[ext_resource type="Texture2D" uid="uid://ddha6tiqsnsc6" path="res://Assets/Sprites/MeteorMashBackground2.png" id="3_re56l"]
+[ext_resource type="Texture2D" uid="uid://hd6d22omhq7n" path="res://Assets/Sprites/MeteorMashBackground3.png" id="4_0woas"]
+[ext_resource type="PackedScene" uid="uid://bqe1g178jt8xc" path="res://Assets/Nodes(Prefabs)/meteor.tscn" id="6_etf7m"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_u5p8p"]
+action = &"ui_select"
+
+[sub_resource type="LabelSettings" id="LabelSettings_lwtuh"]
+font_size = 72
+outline_size = 36
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ae4l"]
+font_size = 24
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="InputEventAction" id="InputEventAction_8ae4l"]
+action = &"ui_select"
+
+[sub_resource type="InputEventAction" id="InputEventAction_0woas"]
+action = &"ui_cancel"
+
+[sub_resource type="LabelSettings" id="LabelSettings_0woas"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="InputEventAction" id="InputEventAction_nftt6"]
+action = &"ui_cancel"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u5p8p"]
+shader = ExtResource("1_xh1da")
+shader_parameter/tile_count = 0.55
+shader_parameter/rotation_randomness = 0.304
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_nftt6"]
+frames = 3
+frame_0/texture = ExtResource("2_etf7m")
+frame_1/texture = ExtResource("3_re56l")
+frame_1/duration = 1.1
+frame_2/texture = ExtResource("4_0woas")
+frame_2/duration = 0.8
+
+[node name="Main" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_re56l")
+sceneToLoad = ExtResource("2_0woas")
+input = SubResource("InputEventAction_u5p8p")
+
+[node name="Foreground" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="Foreground"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Foreground/CenterContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Foreground/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "Meteor Mash"
+label_settings = SubResource("LabelSettings_lwtuh")
+horizontal_alignment = 1
+
+[node name="Start_Command" type="Label" parent="Foreground/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "Press % to Start"
+label_settings = SubResource("LabelSettings_8ae4l")
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("1_8ae4l")
+input = SubResource("InputEventAction_8ae4l")
+
+[node name="Quit" type="Control" parent="Foreground"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+script = ExtResource("1_re56l")
+input = SubResource("InputEventAction_0woas")
+
+[node name="Quit_Command" type="Label" parent="Foreground/Quit"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 118.0
+grow_vertical = 0
+text = "Press % to Quit"
+label_settings = SubResource("LabelSettings_0woas")
+script = ExtResource("1_8ae4l")
+input = SubResource("InputEventAction_nftt6")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+material = SubResource("ShaderMaterial_u5p8p")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("AnimatedTexture_nftt6")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Meteor" parent="." instance=ExtResource("6_etf7m")]
+position = Vector2(27, 28)
+speed = 95.0
+
+[node name="Meteor2" parent="." instance=ExtResource("6_etf7m")]
+position = Vector2(880, 32)
+
+[node name="Meteor3" parent="." instance=ExtResource("6_etf7m")]
+position = Vector2(50, 600)
+speed = 120.0
+
+[node name="Meteor4" parent="." instance=ExtResource("6_etf7m")]
+position = Vector2(1123, 305)
+speed = 75.0
+
+[node name="Meteor5" parent="." instance=ExtResource("6_etf7m")]
+position = Vector2(298, 51)
+speed = 66.0
+
+[node name="Meteor6" parent="." instance=ExtResource("6_etf7m")]
+position = Vector2(644, 635)
+speed = 110.0
+
+[node name="Player" type="Node2D" parent="."]
+position = Vector2(602, 275)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)

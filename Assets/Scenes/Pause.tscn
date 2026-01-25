@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgld5jfc2mwpb"]
+
+[ext_resource type="Script" uid="uid://dhvy2eo5612nv" path="res://Assets/Scripts/EnableDashDir.gd" id="1_ot55j"]
+[ext_resource type="Script" uid="uid://dvls2n5br7sxk" path="res://Assets/Scripts/PlayableSceneMenus.gd" id="1_pebd5"]
+[ext_resource type="Script" uid="uid://cvi6nwdq5sbyp" path="res://Assets/Scenes/ControllerUINavigation.gd" id="2_w0miv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pebd5"]
+font_size = 48
+outline_size = 24
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_w0miv"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Pause" type="Node"]
+process_mode = 3
+script = ExtResource("1_pebd5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+visible = false
+script = ExtResource("2_w0miv")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/CenterContainer"]
+layout_mode = 2
+
+[node name="Pause Title" type="Label" parent="CanvasLayer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_pebd5")
+horizontal_alignment = 1
+
+[node name="Resume" type="Button" parent="CanvasLayer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Quit" type="Button" parent="CanvasLayer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/CenterContainer/GridContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/GridContainer/GridContainer"]
+layout_mode = 2
+text = "Dash toward look Direction"
+label_settings = SubResource("LabelSettings_w0miv")
+
+[node name="CheckButton" type="CheckButton" parent="CanvasLayer/CenterContainer/GridContainer/GridContainer"]
+layout_mode = 2
+script = ExtResource("1_ot55j")
+
+[connection signal="button_up" from="CanvasLayer/CenterContainer/GridContainer/Resume" to="." method="_on_resume_button_up"]
+[connection signal="button_up" from="CanvasLayer/CenterContainer/GridContainer/Quit" to="." method="_on_quit_button_up"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/GridContainer/GridContainer/CheckButton" to="CanvasLayer/CenterContainer/GridContainer/GridContainer/CheckButton" method="_on_pressed"]
+[connection signal="toggled" from="CanvasLayer/CenterContainer/GridContainer/GridContainer/CheckButton" to="CanvasLayer/CenterContainer/GridContainer/GridContainer/CheckButton" method="_on_toggled"]

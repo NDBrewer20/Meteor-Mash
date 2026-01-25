@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqe1g178jt8xc"]
+
+[ext_resource type="Script" uid="uid://ds1vavogv2efs" path="res://Assets/Scripts/Meteor/MeteorMovement.gd" id="1_nyont"]
+[ext_resource type="Texture2D" uid="uid://l7tr01h77y78" path="res://Assets/Sprites/MeteorMashMeteor.png" id="2_nyont"]
+[ext_resource type="AudioStream" uid="uid://dhicws25qj7bi" path="res://Assets/Sounds/Explode.wav" id="3_ck10u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nyont"]
+radius = 45.2769
+
+[node name="Meteor" type="RigidBody2D"]
+collision_layer = 2
+collision_priority = 0.75
+mass = 0.169
+gravity_scale = 0.0
+script = ExtResource("1_nyont")
+speed = 100.0
+
+[node name="Meteor_Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_nyont")
+
+[node name="Meteor_VFX" type="Sprite2D" parent="Meteor_Hitbox"]
+position = Vector2(0, 2)
+texture = ExtResource("2_nyont")
+
+[node name="Meteor_Audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ck10u")

@@ -1,0 +1,119 @@
+[gd_scene load_steps=17 format=3 uid="uid://dy6fledgcurt5"]
+
+[ext_resource type="Script" uid="uid://b8gghdh2j57xb" path="res://Assets/Scripts/SceneChanger.gd" id="1_2y6fv"]
+[ext_resource type="Shader" uid="uid://cewejss8yfh5v" path="res://Assets/Scripts/Background.gdshader" id="1_nth56"]
+[ext_resource type="Texture2D" uid="uid://c41h8s6lkma8" path="res://Assets/Sprites/MeteorMashBackground1.png" id="2_rrkas"]
+[ext_resource type="PackedScene" uid="uid://bux03ixyhk63d" path="res://Assets/Scenes/Splash.tscn" id="2_xgygm"]
+[ext_resource type="Texture2D" uid="uid://ddha6tiqsnsc6" path="res://Assets/Sprites/MeteorMashBackground2.png" id="3_2y6fv"]
+[ext_resource type="Script" uid="uid://c4m6vtixrkqwx" path="res://Assets/Scripts/updateGlyph.gd" id="3_xgygm"]
+[ext_resource type="Texture2D" uid="uid://hd6d22omhq7n" path="res://Assets/Sprites/MeteorMashBackground3.png" id="4_xgygm"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_sm22o"]
+action = &"ui_select"
+
+[sub_resource type="LabelSettings" id="LabelSettings_nth56"]
+font_size = 72
+outline_size = 36
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xgygm"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="InputEventAction" id="InputEventAction_1ks0u"]
+action = &"ui_select"
+
+[sub_resource type="InputEventAction" id="InputEventAction_xgygm"]
+action = &"ui_cancel"
+
+[sub_resource type="LabelSettings" id="LabelSettings_sm22o"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="InputEventAction" id="InputEventAction_dxlx1"]
+action = &"ui_cancel"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sm22o"]
+shader = ExtResource("1_nth56")
+shader_parameter/tile_count = 0.55
+shader_parameter/rotation_randomness = 0.304
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_1ks0u"]
+frames = 3
+frame_0/texture = ExtResource("2_rrkas")
+frame_1/texture = ExtResource("3_2y6fv")
+frame_1/duration = 1.1
+frame_2/texture = ExtResource("4_xgygm")
+frame_2/duration = 0.8
+
+[node name="GameOver" type="Node"]
+script = ExtResource("1_2y6fv")
+sceneToLoad = ExtResource("2_xgygm")
+input = SubResource("InputEventAction_sm22o")
+
+[node name="Foreground" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="Foreground"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Foreground/CenterContainer"]
+layout_mode = 2
+
+[node name="GameOverTitle" type="Label" parent="Foreground/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_nth56")
+horizontal_alignment = 1
+
+[node name="Command" type="Label" parent="Foreground/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "Press % to go back to Main Menu"
+label_settings = SubResource("LabelSettings_xgygm")
+horizontal_alignment = 1
+script = ExtResource("3_xgygm")
+input = SubResource("InputEventAction_1ks0u")
+
+[node name="Quit" type="Control" parent="Foreground"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+script = ExtResource("1_2y6fv")
+input = SubResource("InputEventAction_xgygm")
+
+[node name="Quit_Command" type="Label" parent="Foreground/Quit"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 118.0
+grow_vertical = 0
+text = "Press % to Quit"
+label_settings = SubResource("LabelSettings_sm22o")
+script = ExtResource("3_xgygm")
+input = SubResource("InputEventAction_dxlx1")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+material = SubResource("ShaderMaterial_sm22o")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("AnimatedTexture_1ks0u")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)

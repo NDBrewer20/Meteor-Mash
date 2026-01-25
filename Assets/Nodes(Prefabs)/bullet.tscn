@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://kxdu621m7e08"]
+
+[ext_resource type="Texture2D" uid="uid://bvygcas46sl5i" path="res://Assets/Sprites/MeteorMashBullet.png" id="1_4a6re"]
+[ext_resource type="Script" uid="uid://co3mdey1fu15l" path="res://Assets/Scripts/bulletMovement.gd" id="1_fhyn8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vqsqb"]
+radius = 12.1212
+height = 84.8485
+
+[node name="Bullet" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 2
+gravity_scale = 0.0
+script = ExtResource("1_fhyn8")
+
+[node name="Bullet_Hitbox" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.33, 0.33)
+shape = SubResource("CapsuleShape2D_vqsqb")
+
+[node name="Bullet_VFX" type="Sprite2D" parent="Bullet_Hitbox"]
+position = Vector2(6, 5)
+rotation = -1.5708
+texture = ExtResource("1_4a6re")

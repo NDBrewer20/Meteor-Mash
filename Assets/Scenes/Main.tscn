@@ -1,0 +1,144 @@
+[gd_scene load_steps=23 format=3 uid="uid://bhjxxx56qfdfe"]
+
+[ext_resource type="PackedScene" uid="uid://dgld5jfc2mwpb" path="res://Assets/Scenes/Pause.tscn" id="1_obb38"]
+[ext_resource type="Shader" uid="uid://cewejss8yfh5v" path="res://Assets/Scripts/Background.gdshader" id="1_xycqk"]
+[ext_resource type="Texture2D" uid="uid://c41h8s6lkma8" path="res://Assets/Sprites/MeteorMashBackground1.png" id="2_obb38"]
+[ext_resource type="Texture2D" uid="uid://ddha6tiqsnsc6" path="res://Assets/Sprites/MeteorMashBackground2.png" id="3_6pypa"]
+[ext_resource type="Texture2D" uid="uid://hd6d22omhq7n" path="res://Assets/Sprites/MeteorMashBackground3.png" id="4_s4ycj"]
+[ext_resource type="Script" uid="uid://3wp5txkgnmw7" path="res://Assets/Scripts/Meteor/MeteorSpawner.gd" id="5_7n1ip"]
+[ext_resource type="PackedScene" uid="uid://bqe1g178jt8xc" path="res://Assets/Nodes(Prefabs)/meteor.tscn" id="6_0i17j"]
+[ext_resource type="Script" uid="uid://dcldeoolhmukw" path="res://Assets/Scripts/Player/PlayerMovement.gd" id="7_muljk"]
+[ext_resource type="Texture2D" uid="uid://bs3tct27wceni" path="res://Assets/Sprites/MeteorMashShip.png" id="8_22soc"]
+[ext_resource type="Texture2D" uid="uid://bxgxt3prsihpb" path="res://Assets/Sprites/MeteorMashDashCharge.png" id="9_xxxt7"]
+[ext_resource type="Script" uid="uid://beghawyvtstex" path="res://Assets/Scripts/Player/PlayerHealth.gd" id="10_wim1k"]
+[ext_resource type="Texture2D" uid="uid://b6bq835xtxwu2" path="res://Assets/Sprites/MeteorMashHealthCharge.png" id="11_6pypa"]
+[ext_resource type="Script" uid="uid://daw3ryn6y1dlk" path="res://Assets/Scripts/Player/PlayerGuns.gd" id="11_c16tw"]
+[ext_resource type="PackedScene" uid="uid://kxdu621m7e08" path="res://Assets/Nodes(Prefabs)/bullet.tscn" id="12_fq3cg"]
+[ext_resource type="AudioStream" uid="uid://dhicws25qj7bi" path="res://Assets/Sounds/Explode.wav" id="13_7n1ip"]
+[ext_resource type="AudioStream" uid="uid://du8mvhibw5xo8" path="res://Assets/Sounds/shoot.wav" id="15_s4ycj"]
+[ext_resource type="AudioStream" uid="uid://cw76b133snhkr" path="res://Assets/Sounds/Dash.wav" id="17_0i17j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ooilj"]
+shader = ExtResource("1_xycqk")
+shader_parameter/tile_count = 0.55
+shader_parameter/rotation_randomness = 0.304
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_2w2ct"]
+frames = 3
+frame_0/texture = ExtResource("2_obb38")
+frame_1/texture = ExtResource("3_6pypa")
+frame_1/duration = 1.1
+frame_2/texture = ExtResource("4_s4ycj")
+frame_2/duration = 0.8
+
+[sub_resource type="Curve" id="Curve_duppq"]
+_limits = [0.0, 10.0, 0.0, 600.0]
+_data = [Vector2(0, 2), 0.0, 0.00121474, 0, 0, Vector2(206.494, 4.29227), 0.0278288, 0.0278288, 0, 0, Vector2(375.974, 8.21101), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_vqsqb"]
+_limits = [0.0, 15.0, 0.0, 600.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.1, 4), 30.0, 0.0023697, 1, 0, Vector2(300, 7), 0.0166472, 0.0166472, 0, 0]
+point_count = 3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8t2v2"]
+radius = 24.0
+
+[node name="Main" type="Node2D"]
+
+[node name="Pause" parent="." instance=ExtResource("1_obb38")]
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+material = SubResource("ShaderMaterial_ooilj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("AnimatedTexture_2w2ct")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Meteor Spawner" type="Node2D" parent="."]
+position = Vector2(577, 339)
+script = ExtResource("5_7n1ip")
+MeteorPrefab = ExtResource("6_0i17j")
+DifficultyCurve = SubResource("Curve_duppq")
+TimeToSpawn = SubResource("Curve_vqsqb")
+
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("DashChargesVFX")]
+process_physics_priority = 1
+position = Vector2(577, 339)
+scale = Vector2(0.55, 0.55)
+collision_mask = 2
+platform_floor_layers = 4294967292
+script = ExtResource("7_muljk")
+rotationSpeed = 8.5
+speed = 12.0
+DashChargesVFX = [NodePath("Player_VFX/DashCharge"), NodePath("Player_VFX/DashCharge2")]
+
+[node name="Player_Hitbox" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_8t2v2")
+
+[node name="Player_VFX" type="Sprite2D" parent="Player"]
+texture = ExtResource("8_22soc")
+
+[node name="DashCharge" type="Sprite2D" parent="Player/Player_VFX"]
+scale = Vector2(1.27, 1.27)
+texture = ExtResource("9_xxxt7")
+
+[node name="DashCharge2" type="Sprite2D" parent="Player/Player_VFX"]
+scale = Vector2(1.27, 1.27)
+texture = ExtResource("9_xxxt7")
+flip_v = true
+
+[node name="Health_Charge" type="Sprite2D" parent="Player/Player_VFX"]
+modulate = Color(0.317647, 0.784314, 0.780392, 1)
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("11_6pypa")
+
+[node name="Health_Charge2" type="Sprite2D" parent="Player/Player_VFX"]
+modulate = Color(0.317647, 0.784314, 0.780392, 1)
+rotation = 1.5708
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("11_6pypa")
+
+[node name="Health_Charge3" type="Sprite2D" parent="Player/Player_VFX"]
+modulate = Color(0.317647, 0.784314, 0.780392, 1)
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("11_6pypa")
+flip_v = true
+
+[node name="Health_Charge4" type="Sprite2D" parent="Player/Player_VFX"]
+modulate = Color(0.317647, 0.784314, 0.780392, 1)
+rotation = 1.5708
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("11_6pypa")
+flip_v = true
+
+[node name="Player_Health" type="Node2D" parent="Player" node_paths=PackedStringArray("healthReference")]
+script = ExtResource("10_wim1k")
+healthMax = 4
+healthReference = [NodePath("../Player_VFX/Health_Charge"), NodePath("../Player_VFX/Health_Charge2"), NodePath("../Player_VFX/Health_Charge3"), NodePath("../Player_VFX/Health_Charge4")]
+
+[node name="Health_Audio" type="AudioStreamPlayer2D" parent="Player/Player_Health"]
+stream = ExtResource("13_7n1ip")
+
+[node name="Player_Guns" type="Node2D" parent="Player"]
+script = ExtResource("11_c16tw")
+attackDelay = 0.33
+bulletPrefab = ExtResource("12_fq3cg")
+
+[node name="Gun_Spawnpoint" type="Node2D" parent="Player/Player_Guns"]
+position = Vector2(27, 0)
+
+[node name="Gun_Audio" type="AudioStreamPlayer2D" parent="Player/Player_Guns"]
+stream = ExtResource("15_s4ycj")
+
+[node name="Player_Audio" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource("17_0i17j")

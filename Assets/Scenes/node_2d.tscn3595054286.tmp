@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhjxxx56qfdfe"]
+
+[ext_resource type="Script" uid="uid://dkeddyrkl524x" path="res://Assets/Scripts/GameController.gd" id="1_vohp4"]
+[ext_resource type="Script" uid="uid://dcldeoolhmukw" path="res://Assets/Scripts/Player/PlayerMovement.gd" id="2_8t2v2"]
+[ext_resource type="Texture2D" uid="uid://bs3tct27wceni" path="res://Assets/Sprites/MeteorMashShip.png" id="3_vohp4"]
+[ext_resource type="Texture2D" uid="uid://bxgxt3prsihpb" path="res://Assets/Sprites/DashCharge.png" id="4_mqbpb"]
+[ext_resource type="Script" uid="uid://ds1vavogv2efs" path="res://Assets/Scripts/Meteor/MeteorMovement.gd" id="5_802lj"]
+[ext_resource type="Texture2D" uid="uid://bfr5rfdlv646w" path="res://Assets/Sprites/icon.svg" id="6_i0ca2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8t2v2"]
+radius = 21.2132
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_duppq"]
+radius = 13.3052
+
+[sub_resource type="GDScript" id="GDScript_802lj"]
+script/source = "extends CollisionShape2D
+
+func _physics_process(delta: float) -> void:
+	pass
+"
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_vohp4")
+
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("DashChargesVFX")]
+position = Vector2(537, 304)
+collision_layer = 2
+platform_floor_layers = 4294967292
+script = ExtResource("2_8t2v2")
+rotationSpeed = 7.5
+speed = 10.0
+friction = 2.5
+DashSpeed = 20.0
+maxDashCharges = null
+DashRecharge = null
+DashDelay = 0.5
+dashLookDir = null
+DashChargesVFX = [NodePath("Player_VFX/DashCharge"), NodePath("Player_VFX/DashCharge2")]
+
+[node name="Player_Hitbox" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_8t2v2")
+
+[node name="Player_VFX" type="Sprite2D" parent="Player"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_vohp4")
+
+[node name="DashCharge" type="Sprite2D" parent="Player/Player_VFX"]
+texture = ExtResource("4_mqbpb")
+
+[node name="DashCharge2" type="Sprite2D" parent="Player/Player_VFX"]
+texture = ExtResource("4_mqbpb")
+flip_v = true
+
+[node name="Meteor Spawner" type="Node2D" parent="."]
+
+[node name="Meteor" type="RigidBody2D" parent="."]
+position = Vector2(81.71, 65.365)
+mass = 0.169
+gravity_scale = 0.0
+script = ExtResource("5_802lj")
+
+[node name="Meteor_Hitbox" type="CollisionShape2D" parent="Meteor"]
+shape = SubResource("CircleShape2D_duppq")
+script = SubResource("GDScript_802lj")
+
+[node name="Meteor_VFX" type="Sprite2D" parent="Meteor"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("6_i0ca2")
